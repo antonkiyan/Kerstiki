@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Крестики-нолики</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/style.min.css" type="text/css">
+</head>
+
+<body>
+  <main>
+    <section class="field">
+      <div class="field__cell  field__cell--top-left"></div>
+      <div class="field__cell  field__cell--top-center"></div>
+      <div class="field__cell  field__cell--top-right"></div>
+      <div class="field__cell  field__cell--middle-left"></div>
+      <div class="field__cell  field__cell--middle-center"></div>
+      <div class="field__cell  field__cell--middle-right"></div>
+      <div class="field__cell  field__cell--bottom-left"></div>
+      <div class="field__cell  field__cell--bottom-center"></div>
+      <div class="field__cell  field__cell--bottom-right"></div>
+    </section>
+
+    <div class="gameover">
+      <p class="gameover__text"></p>
+      <button class="gameover__close">Играть еще</button>
+    </div>
+  </main>
+
+  <template id="cross">
+    <svg class="cross" viewBox="0 0 5 5" xmlns="http://www.w3.org/2000/svg">
+      <path stroke="darkblue" stroke-width="0.3" d="M1 1 L4 4 M4 1 L1 4"></path>
+    </svg>
+  </template>
+
+  <template id="ring">
+    <svg class="ring" viewBox="0 0 5 5" xmlns="http://www.w3.org/2000/svg">
+      <circle stroke="red" stroke-width="0.3" fill="none" r="1.5" cx="2.5" cy="2.5"></circle>
+    </svg>
+  </template>
+
+  <script src="js/vendor.min.js"></script>
+  <script src="js/script.min.js"></script>
+</body>
+</html>

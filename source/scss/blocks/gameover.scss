@@ -1,0 +1,102 @@
+@keyframes bounce-left {
+  0% {
+    transform: translateX(-2000px);
+  }
+
+  70% {
+    transform: translateX(30px);
+  }
+
+  90% {
+    transform: translateX(-10px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes bounce-right {
+  0% {
+    transform: translateX(2000px);
+  }
+
+  70% {
+    transform: translateX(-30px);
+  }
+
+  90% {
+    transform: translateX(10px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.gameover {
+  @include transition;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  padding-top: 30vh;
+
+  font-size: 52px;
+  line-height: 65px;
+  text-transform: uppercase;
+
+  background-color: rgba(255, 255, 255, 0.8);
+
+  &.show {
+    display: flex;
+  }
+}
+
+.gameover.show .gameover__text {
+  animation: bounce-left 0.6s;
+}
+
+.gameover.show .gameover__close {
+  animation: bounce-right 0.6s;
+}
+
+.gameover__close {
+  @include transition;
+
+  display: block;
+  padding: 0;
+  margin: 0;
+
+  text-transform: uppercase;
+  color: blueviolet;
+
+  background: none;
+  border: none;
+  border-bottom: 3px solid blueviolet;
+
+  &:hover {
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+  }
+}
+
+@media (max-width: 600px) {
+  .gameover {
+    padding: 100px 20px;
+
+    font-weight: 700;
+    font-size: 22px;
+    line-height: 25px;
+  }
+
+  .gameover__close {
+    font-weight: inherit;
+  }
+}

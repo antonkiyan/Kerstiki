@@ -1,0 +1,31 @@
+.field {
+  display: flex;
+  flex-wrap: wrap;
+  width: 500px;
+  height: 500px;
+  margin: 0 auto;
+
+  background-color: #f6f6f6;
+}
+
+.field__cell {
+  @include transition;
+
+  width: 33.3%;
+  height: 33.3%;
+
+  border: 1px solid #aaaaaa;
+
+  &:hover {
+    cursor: pointer;
+
+    background-color: #f0f0f0;
+  }
+}
+
+@media (max-width: 600px) {
+  .field {
+    width: 288px;
+    height: 288px;
+  }
+}
