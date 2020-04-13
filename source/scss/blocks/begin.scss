@@ -34,9 +34,7 @@
   }
 }
 
-.gameover {
-  @include transition;
-
+.begin {
   position: fixed;
   top: 0;
   left: 0;
@@ -52,47 +50,18 @@
   line-height: 65px;
   text-transform: uppercase;
 
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.8);
 
   &.show {
     display: flex;
   }
 }
 
-.gameover.show .gameover__text {
-  padding: 10px 20px;
-
-  animation: bounce-left 0.6s;
-
-  &.cross {
-    background-color: rgba(0, 0, 255, 0.2);
-  }
-
-  &.ring {
-    background-color: rgba(255, 0, 0, 0.2);
-  }
-
-  &.tie {
-    background-color: rgba(0, 0, 0, 0.2);
-  }
-}
-
-.gameover.show .gameover__close {
-  animation: bounce-right 0.6s;
-}
-
-.gameover.show .gameover__to-start {
-  animation: bounce-left 0.6s;
-}
-
-.gameover__close,
-.gameover__to-start {
+.begin__button {
   @include transition;
 
-  display: block;
-  padding: 10px 20px;
-  margin: 0;
   margin-bottom: 50px;
+  padding: 10px 20px;
 
   text-transform: uppercase;
   color: blueviolet;
@@ -108,8 +77,20 @@
   }
 }
 
+.begin.show .begin__button--multiplayer {
+  animation: bounce-left 0.6s;
+}
+
+.begin.show .begin__button--one-player-cross {
+  animation: bounce-right 0.6s;
+}
+
+.begin.show .begin__button--one-player-ring {
+  animation: bounce-left 0.6s;
+}
+
 @media (max-width: 600px) {
-  .gameover {
+  .begin {
     padding: 100px 20px;
 
     font-weight: 700;
@@ -117,12 +98,7 @@
     line-height: 25px;
   }
 
-  .gameover__close,
-  .gameover__to-start {
-    margin-bottom: 20px;
-
-    font-weight: inherit;
-
+  .begin__button {
     box-shadow: 0 5px 0 3px rgba(0, 0, 150, 0.5);
 
     &:hover,

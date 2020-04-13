@@ -4,6 +4,13 @@
   var gameover = document.querySelector('.gameover');
   var message = document.querySelector('.gameover__text');
   var close = document.querySelector('.gameover__close');
+  var menu = document.querySelector('.gameover__to-start');
+
+  var begin = document.querySelector('.begin');
+  var multiplayer = document.querySelector('.begin__button--multiplayer');
+  var crossPlayer = document.querySelector('.begin__button--one-player-cross');
+  var ringPlayer = document.querySelector('.begin__button--one-player-ring');
+
   var crossTemplate = document.querySelector('#cross').content.querySelector('.cross');
   var ringTemplate = document.querySelector('#ring').content.querySelector('.ring');
 
@@ -28,20 +35,38 @@
   var computer = 'ring';
   var human = 'cross';
   var isCross = true;
+  var isMultiplayer = false;
+  var isRingPlayer = false;
   var step = 0;
 
   var getRandomNumber = function (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
+  var onMultiplayerClick = function () {
+    begin.classList.remove('show');
+    isMultiplayer = true;
+  };
+
+  var onCrossPlayerClick = function () {
+    begin.classList.remove('show');
+  };
+
+  var onRingPlayerClick = function () {
+    begin.classList.remove('show');
+    isRingPlayer = true;
+    computerMove();
+  };
+
   var changePlayer = function () {
     isCross = isCross ? false : true;
-  }
+  };
 
   var render = function () {
     var node = isCross ?
       crossTemplate.cloneNode(true) :
       ringTemplate.cloneNode(true);
+    changePlayer();
 
     return node;
   };
@@ -128,11 +153,13 @@
 
     if (winningNum !== -1) {
       cells[winningNum].appendChild(render());
+      step += 1;
       return;
     }
 
     if (dangerNum !== -1) {
       cells[dangerNum].appendChild(render());
+      step += 1;
       return;
     }
 
@@ -142,9 +169,12 @@
     }
 
     cells[randomNum].appendChild(render());
+    step += 1;
   }
 
   var showMessage = function () {
+    message.className = 'gameover__text';
+    message.classList.add(winner);
     message.textContent = WIN_MESSAGE[winner];
     gameover.classList.add('show');
   };
@@ -164,6 +194,22 @@
     isCross = true;
     winner = 'tie';
     step = 0;
+
+    if (isRingPlayer) {
+      computerMove();
+    }
+  };
+
+  var onMenuClick = function () {
+    isRingPlayer = false;
+    isMultiplayer = false;
+    gameover.classList.remove('show');
+    clearField();message.textContent = '';
+    isCross = true;
+    winner = 'tie';
+    step = 0;
+
+    begin.classList.add('show');
   }
 
   var onFieldClick = function (evt) {
@@ -172,7 +218,6 @@
     if (target.classList.contains('field__cell')) {
       target.appendChild(render());
       step += 1;
-      changePlayer();
 
       if (checkEnd()) {
         showMessage();
@@ -184,21 +229,26 @@
         return;
       }
 
-      computerMove();
-      step += 1;
-      changePlayer();
+      if (!isMultiplayer) {
+        computerMove();
 
-      if (checkEnd()) {
-        showMessage();
-        return;
-      }
+        if (checkEnd()) {
+          showMessage();
+          return;
+        }
 
-      if (step === 9) {
-        showMessage();
+        if (step === 9) {
+          showMessage();
+        }
       }
     }
   }
 
+  begin.classList.add('show');
+  multiplayer.addEventListener('click', onMultiplayerClick);
+  crossPlayer.addEventListener('click', onCrossPlayerClick);
+  ringPlayer.addEventListener('click', onRingPlayerClick);
   field.addEventListener('click', onFieldClick);
   close.addEventListener('click', onCloseClick);
+  menu.addEventListener('click', onMenuClick);
 })();
