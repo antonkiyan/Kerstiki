@@ -20,12 +20,19 @@
 
   var WIN_MESSAGE = {
     'cross': 'Выиграли крестики!',
-    'ring': 'Выиграли нолики!'
+    'ring': 'Выиграли нолики!',
+    'tie': 'Ничья!'
   };
 
-  var winner = '';
-
+  var winner = 'tie';
+  var computer = 'ring';
+  var human = 'cross';
   var isCross = true;
+  var step = 0;
+
+  var getRandomNumber = function (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
 
   var changePlayer = function () {
     isCross = isCross ? false : true;
@@ -42,35 +49,100 @@
   var getCellName = function (num) {
     return cells[num].firstChild ?
       cells[num].firstChild.classList[0] :
-      '';
+      'empty';
   };
 
-  var checkLine = function (num1, num2, num3) {
+  var checkFullLine = function (line) {
     var isAllSame = false;
 
     if (
-      getCellName(num1) !== ''
-      && getCellName(num1) === getCellName(num2)
-      && getCellName(num1) === getCellName(num3)
+      getCellName(line[0]) !== 'empty'
+      && getCellName(line[0]) === getCellName(line[1])
+      && getCellName(line[0]) === getCellName(line[2])
     ) {
-      winner = getCellName(num1);
+      winner = getCellName(line[0]);
       isAllSame = true;
     }
 
     return isAllSame;
   };
 
-  var checkField = function () {
+  var checkEnd = function () {
     var isEnd = false;
 
     LINES.forEach(function (line) {
-      if (checkLine(line[0], line[1], line[2]) && !isEnd) {
+      if (checkFullLine(line) && !isEnd) {
         isEnd = true;
       }
     });
 
     return isEnd;
   };
+
+  var getPossibleLineCell = function (line, player) {
+    if (
+      getCellName(line[0]) === player
+      && getCellName(line[0]) === getCellName(line[1])
+      && getCellName(line[2]) === 'empty'
+    ) {
+      return line[2];
+    }
+
+    if (
+      getCellName(line[0]) === player
+      && getCellName(line[0]) === getCellName(line[2])
+      && getCellName(line[1]) === 'empty'
+    ) {
+      return line[1];
+    }
+
+    if (
+      getCellName(line[1]) === player
+      && getCellName(line[1]) === getCellName(line[2])
+      && getCellName(line[0]) === 'empty'
+    ) {
+      return line[0];
+    }
+
+    return -1;
+  };
+
+  var getPossibleFieldCell = function (player) {
+    var cell = -1;
+
+    LINES.forEach(function (line) {
+      var currentCell = getPossibleLineCell(line, player);
+
+      if (currentCell !== -1 && cell === -1) {
+        cell = currentCell;
+      }
+    });
+
+    return cell;
+  };
+
+  var computerMove = function () {
+    var dangerNum = getPossibleFieldCell(human);
+    var winningNum = getPossibleFieldCell(computer);
+    var randomNum = -1;
+
+    if (winningNum !== -1) {
+      cells[winningNum].appendChild(render());
+      return;
+    }
+
+    if (dangerNum !== -1) {
+      cells[dangerNum].appendChild(render());
+      return;
+    }
+
+    while (randomNum === -1) {
+      num = getRandomNumber(0, 8);
+      randomNum = cells[num].firstChild ? -1 : num;
+    }
+
+    cells[randomNum].appendChild(render());
+  }
 
   var showMessage = function () {
     message.textContent = WIN_MESSAGE[winner];
@@ -90,6 +162,8 @@
     gameover.classList.remove('show');
     message.textContent = '';
     isCross = true;
+    winner = 'tie';
+    step = 0;
   }
 
   var onFieldClick = function (evt) {
@@ -97,14 +171,32 @@
 
     if (target.classList.contains('field__cell')) {
       target.appendChild(render());
+      step += 1;
       changePlayer();
+
+      if (checkEnd()) {
+        showMessage();
+        return;
+      }
+
+      if (step === 9) {
+        showMessage();
+        return;
+      }
+
+      computerMove();
+      step += 1;
+      changePlayer();
+
+      if (checkEnd()) {
+        showMessage();
+        return;
+      }
+
+      if (step === 9) {
+        showMessage();
+      }
     }
-
-    if (checkField()) {
-      showMessage();
-    }
-
-
   }
 
   field.addEventListener('click', onFieldClick);
