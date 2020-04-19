@@ -162,12 +162,32 @@
     if (winningNum !== -1) {
       cells[winningNum].appendChild(render());
       step += 1;
+
+      if (checkEnd()) {
+        showMessage();
+        return;
+      }
+
+      if (step === 9) {
+        showMessage();
+      }
+
       return;
     }
 
     if (dangerNum !== -1) {
       cells[dangerNum].appendChild(render());
       step += 1;
+
+      if (checkEnd()) {
+        showMessage();
+        return;
+      }
+
+      if (step === 9) {
+        showMessage();
+      }
+
       return;
     }
 
