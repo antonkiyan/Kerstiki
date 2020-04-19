@@ -25,6 +25,10 @@
     [2, 4, 6]
   ];
 
+  var DELAY = 500;
+
+  var isDelay = false;
+
   var WIN_MESSAGE = {
     'cross': 'Выиграли крестики!',
     'ring': 'Выиграли нолики!',
@@ -55,7 +59,9 @@
   var onRingPlayerClick = function () {
     begin.classList.remove('show');
     isRingPlayer = true;
-    computerMove();
+    computer = 'cross';
+    human = 'ring';
+    setTimeout(computerMove, DELAY);
   };
 
   var changePlayer = function () {
@@ -151,6 +157,8 @@
     var winningNum = getPossibleFieldCell(computer);
     var randomNum = -1;
 
+    isDelay = false;
+
     if (winningNum !== -1) {
       cells[winningNum].appendChild(render());
       step += 1;
@@ -170,6 +178,15 @@
 
     cells[randomNum].appendChild(render());
     step += 1;
+
+    if (checkEnd()) {
+      showMessage();
+      return;
+    }
+
+    if (step === 9) {
+      showMessage();
+    }
   }
 
   var showMessage = function () {
@@ -194,9 +211,10 @@
     isCross = true;
     winner = 'tie';
     step = 0;
+    isDelay = false;
 
     if (isRingPlayer) {
-      computerMove();
+      setTimeout(computerMove, DELAY);
     }
   };
 
@@ -208,6 +226,9 @@
     isCross = true;
     winner = 'tie';
     step = 0;
+    isDelay = false;
+    computer = 'ring';
+    human = 'cross';
 
     begin.classList.add('show');
   }
@@ -215,7 +236,8 @@
   var onFieldClick = function (evt) {
     var target = evt.target;
 
-    if (target.classList.contains('field__cell')) {
+    if (target.classList.contains('field__cell') && !isDelay) {
+      isDelay = isMultiplayer ? false : true;
       target.appendChild(render());
       step += 1;
 
@@ -230,16 +252,7 @@
       }
 
       if (!isMultiplayer) {
-        computerMove();
-
-        if (checkEnd()) {
-          showMessage();
-          return;
-        }
-
-        if (step === 9) {
-          showMessage();
-        }
+        setTimeout(computerMove, DELAY);
       }
     }
   }
