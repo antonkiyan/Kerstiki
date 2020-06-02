@@ -11,15 +11,15 @@
 <body>
   <main>
     <section class="field">
-      <div class="field__cell  field__cell--top-left"></div>
-      <div class="field__cell  field__cell--top-center"></div>
-      <div class="field__cell  field__cell--top-right"></div>
-      <div class="field__cell  field__cell--middle-left"></div>
-      <div class="field__cell  field__cell--middle-center"></div>
-      <div class="field__cell  field__cell--middle-right"></div>
-      <div class="field__cell  field__cell--bottom-left"></div>
-      <div class="field__cell  field__cell--bottom-center"></div>
-      <div class="field__cell  field__cell--bottom-right"></div>
+      <div class="field__cell  field__cell--top-left" data-id="0"></div>
+      <div class="field__cell  field__cell--top-center" data-id="1"></div>
+      <div class="field__cell  field__cell--top-right" data-id="2"></div>
+      <div class="field__cell  field__cell--middle-left" data-id="3"></div>
+      <div class="field__cell  field__cell--middle-center" data-id="4"></div>
+      <div class="field__cell  field__cell--middle-right" data-id="5"></div>
+      <div class="field__cell  field__cell--bottom-left" data-id="6"></div>
+      <div class="field__cell  field__cell--bottom-center" data-id="7"></div>
+      <div class="field__cell  field__cell--bottom-right" data-id="8"></div>
     </section>
 
     <div class="gameover">
@@ -31,6 +31,16 @@
       <button class="begin__button  begin__button--multiplayer">Играть вдвоём</button>
       <button class="begin__button  begin__button--one-player-cross">Играть за крестики</button>
       <button class="begin__button  begin__button--one-player-ring">Играть за нолики</button>
+    </div>
+    <div class="difficulty  difficulty--cross">
+      <button class="difficulty__button  difficulty__button--cross" data-mode="1">Легко</button>
+      <button class="difficulty__button  difficulty__button--cross" data-mode="2">Средненько</button>
+      <button class="difficulty__button  difficulty__button--cross" data-mode="3">Сложно</button>
+    </div>
+    <div class="difficulty  difficulty--ring">
+      <button class="difficulty__button  difficulty__button--ring" data-mode="4">Легко</button>
+      <button class="difficulty__button  difficulty__button--ring" data-mode="5">Средненько</button>
+      <button class="difficulty__button  difficulty__button--ring" data-mode="6">Сложно</button>
     </div>
   </main>
 
@@ -47,6 +57,6 @@
   </template>
 
   <script src="js/vendor.min.js"></script>
-  <script src="js/script.min.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>

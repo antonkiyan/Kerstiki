@@ -1,28 +1,26 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
-`use strict`;
+const gulp = require(`gulp`);
+const del = require(`del`);
+const plumber = require(`gulp-plumber`);
+const sourcemap = require(`gulp-sourcemaps`);
+const concat = require(`gulp-concat`);
+const rename = require(`gulp-rename`);
+const newer = require(`gulp-newer`);
+const imagemin = require(`gulp-imagemin`);
+const svgstore = require(`gulp-svgstore`);
+const webp = require(`gulp-webp`);
+const posthtml = require(`gulp-posthtml`);
+const include = require(`posthtml-include`);
+const rollup = require(`gulp-better-rollup`);
+const sass = require(`gulp-sass`);
+const postcss = require(`gulp-postcss`);
+const autoprefixer = require(`autoprefixer`);
+const csso = require(`gulp-csso`);
 
-let gulp = require(`gulp`);
-let del = require(`del`);
-let plumber = require(`gulp-plumber`);
-let sourcemap = require(`gulp-sourcemaps`);
-let concat = require(`gulp-concat`);
-let rename = require(`gulp-rename`);
-let newer = require(`gulp-newer`);
-let imagemin = require(`gulp-imagemin`);
-let svgstore = require(`gulp-svgstore`);
-let webp = require(`gulp-webp`);
-let posthtml = require(`gulp-posthtml`);
-let include = require(`posthtml-include`);
+const uglify = require(`gulp-terser`);
 
-let sass = require(`gulp-sass`);
-let postcss = require(`gulp-postcss`);
-let autoprefixer = require(`autoprefixer`);
-let csso = require(`gulp-csso`);
-
-let uglify = require(`gulp-terser`);
-
-let server = require(`browser-sync`).create();
+const server = require(`browser-sync`).create();
 
 gulp.task(`clean`, function () {
   return del(`build`);
@@ -110,17 +108,17 @@ gulp.task(`js-vendor`, function () {
 
 gulp.task(`js`, function () {
   return gulp.src([
-    `source/js/modules/*.js`,
+    `source/js/main.js`,
   ])
     .pipe(plumber())
     .pipe(sourcemap.init())
-    .pipe(concat(`script.js`))
-    .pipe(gulp.dest(`build/js`))
-    .pipe(uglify())
-    .pipe(rename({
-      suffix: `.min`
-    }))
-    .pipe(sourcemap.write())
+    .pipe(rollup({}, `iife`))
+    // .pipe(gulp.dest(`build/js`))
+    // .pipe(uglify())
+    // .pipe(rename({
+    //   suffix: `.min`
+    // }))
+    .pipe(sourcemap.write(`.`))
     .pipe(gulp.dest(`build/js`));
 });
 
