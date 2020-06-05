@@ -1,0 +1,58 @@
+.policy {
+  padding-bottom: 100px;
+  color: #000000;
+}
+
+.policy a {
+  color: inherit;
+}
+
+.policy h1 {
+  font-size: 28px;
+  line-height: 32px;
+}
+
+.policy h2 {
+  font-size: 21px;
+  line-height: 26px;
+}
+
+.policy label:hover {
+  cursor: pointer;
+}
+
+.policy label {
+  display: inline-block;
+  margin: 0 10px 50px;
+
+  color: #888888;
+}
+
+.policy input:checked + label {
+  color: #000000;
+
+  border-bottom: 1px solid #000000;
+}
+
+.policy__eng {
+  display: none;
+}
+
+input[id="eng"]:checked + label + .policy__eng {
+  display: block;
+}
+
+.policy__ru {
+  display: none;
+}
+
+input[id="ru"]:checked + label + input + label + div + .policy__ru {
+  display: block;
+}
+
+@media (max-width: 479px) {
+  .policy h1 {
+    font-size: 24px;
+    line-height: 30px;
+  }
+}
